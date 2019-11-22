@@ -20,6 +20,6 @@ Via header: Token = "<token>"
 ```
 Example
 
-curl -X GET "http://localhost:57589/calc/add?minuend=1&deductible=2" -H  "accept: text/plain" -H  "Token: AddToken"
+curl -X GET "http://localhost:57589/calc/add?summands=1&summands=2" -H  "accept: text/plain" -H  "Token: AddToken"
 
 ```
