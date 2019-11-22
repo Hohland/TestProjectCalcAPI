@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 
 namespace Calc.Web.Services
@@ -15,6 +15,11 @@ namespace Calc.Web.Services
 
         public float Add(float[] summands)
         {
+            if (summands.Any(float.IsInfinity))
+            {
+                throw new ApplicationException("Too big or low number.");
+            }
+
             return summands.Sum();
         }
 

@@ -1,7 +1,9 @@
 ﻿using Calc.Web.Services;
+using Calc.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Calc.Web.Controllers
 {
@@ -23,7 +25,7 @@ namespace Calc.Web.Controllers
         [HttpGet("add")]
         public float Add([FromQuery]float[] summands)
         {
-            _logger.LogInformation("Recieved adding request");
+            _logger.LogInformation("Recieved add request");
             return calcService.Add(summands);
         }
 
@@ -31,7 +33,7 @@ namespace Calc.Web.Controllers
         [HttpGet("multiply")]
         public float Multiplicate([FromQuery]float[] multipliers)
         {
-            _logger.LogInformation("Recieved multiplicating request");
+            _logger.LogInformation("Recieved multiplicate request");
             return calcService.Multiplicate(multipliers);
         }
 
@@ -48,6 +50,11 @@ namespace Calc.Web.Controllers
         public float Divide([FromQuery]float divident, [FromQuery]float devider)
         {
             _logger.LogInformation("Recieved divide request");
+
+            if (devider == 0) {
+                throw new ApplicationException("Devider shouldn't be equal 0");
+            }
+
             return calcService.Multiplicate(new[] { divident, 1 / devider });
         }
     }

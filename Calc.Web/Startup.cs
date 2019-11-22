@@ -1,4 +1,5 @@
 using Calc.Web.Services;
+using Calc.Web.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,12 @@ namespace Calc.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseExceptionMiddleware();
+            }
+            else
+            {
+                app.UseExceptionMiddleware();
+                app.UseExceptionHandler();
             }
 
             app.UseSwagger();
