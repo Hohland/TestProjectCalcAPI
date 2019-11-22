@@ -1,15 +1,13 @@
 ﻿using Calc.Web.Services;
-using Calc.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 
 namespace Calc.Web.Controllers
-{
-    [AllowAnonymous]
+{    
     [ApiController]
-    [Route("calc")]
+    [Route("calc")]    
     public class CalcController : ControllerBase
     {
         private readonly ILogger<CalcController> _logger;
@@ -21,7 +19,7 @@ namespace Calc.Web.Controllers
             this.calcService = calcService;
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
+        [Authorize(Policy = "Add")]
         [HttpGet("add")]
         public float Add([FromQuery]float[] summands)
         {
@@ -29,24 +27,26 @@ namespace Calc.Web.Controllers
             return calcService.Add(summands);
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
-        [HttpGet("multiply")]
+        [Authorize(Policy = "Multiplicate")]
+        [HttpGet("multiplicate")]
         public float Multiplicate([FromQuery]float[] multipliers)
         {
             _logger.LogInformation("Recieved multiplicate request");
             return calcService.Multiplicate(multipliers);
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
+        [AllowAnonymous]
         [HttpGet("deduct")]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
         public float Deduct([FromQuery]float minuend, [FromQuery]float deductible)
         {
             _logger.LogInformation("Recieved deduct request");
             return calcService.Add(new[] { minuend, deductible * -1 });
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
+        [AllowAnonymous]
         [HttpGet("divide")]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 3600)]
         public float Divide([FromQuery]float divident, [FromQuery]float devider)
         {
             _logger.LogInformation("Recieved divide request");
